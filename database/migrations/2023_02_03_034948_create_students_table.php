@@ -17,9 +17,10 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('reg_no')->unique();
-            $table->string('roll_no')->unique();
+            $table->string('reg_no');
+            $table->string('roll_no');
             $table->string('email')->unique();
+            $table->string('password');
             $table->string('mobile');
             $table->tinyInteger('gender');
             $table->string('birth_date');
@@ -28,10 +29,10 @@ return new class extends Migration
             $table->tinyInteger('is_active');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->integer('created_by');
-            $table->integer('updated_by');
-            $table->string('created_ip');
-            $table->string('updated_ip');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
+            $table->string('created_ip')->nullable();
+            $table->string('updated_ip')->nullable();
         });
     }
 

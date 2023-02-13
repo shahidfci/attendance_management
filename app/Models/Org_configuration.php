@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Org_configuration extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'address',
+        'logo',
+        'is_active'
+    ];
 }
