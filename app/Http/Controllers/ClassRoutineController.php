@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Class_routine;
+use App\Models\Setting;
+use App\Models\Course;
+use App\Models\Teacher;
 
 class ClassRoutineController extends Controller
 {
@@ -12,8 +15,8 @@ class ClassRoutineController extends Controller
      */
     public function index()
     {
-        $class_routines = Class_routine::latest()->paginate(10);
-        return view('class-routine.index',compact('class_routines'));
+        $class_routines = Class_routine::latest()->get();
+        return view('class-routines.index',compact('class_routines'));
     }
 
     /*
@@ -21,7 +24,29 @@ class ClassRoutineController extends Controller
      */
     public function create()
     {
-        return view('class-routine.create');
+        $day        = Setting::where('type', 1)->where('is_active', 1)->get();
+        $timeslot   = Setting::where('type', 2)->where('is_active', 1)->get();
+        $room       = Setting::where('type', 3)->where('is_active', 1)->get();
+        $semester   = Setting::where('type', 4)->where('is_active', 1)->get();
+        $session    = Setting::where('type', 5)->where('is_active', 1)->get();
+        $year       = Setting::where('type', 6)->where('is_active', 1)->get();
+        $designation = Setting::where('type', 7)->where('is_active', 1)->get();
+        $dept       = Setting::where('type', 8)->where('is_active', 1)->get();
+        $course     = Course::where('is_active', 1)->get();
+        $teacher    = Teacher::where('is_active', 1)->get();
+
+        return view('class-routines.create',[
+            'days'      => $day,
+            'timeslots' => $timeslot,
+            'rooms'     => $room,
+            'semesters' => $semester,
+            'sessions'  => $session,
+            'years'     => $year,
+            'designations' => $designation,
+            'depts'     => $dept,
+            'courses'   => $course,
+            'teachers'  => $teacher,
+        ]);
     }
 
     /*
@@ -53,7 +78,7 @@ class ClassRoutineController extends Controller
         ]);
 
         flash()->addSuccess('Class routine created successfully');
-        return redirect()->route('class-routine.index');
+        return redirect()->route('class-routines.index');
     }
 
     /**

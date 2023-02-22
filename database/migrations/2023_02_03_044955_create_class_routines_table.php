@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('class_routines', function (Blueprint $table) {
             $table->id();
             $table->integer('day_id')->nullable();
-            $table->integer('course_id')->nullable();
-            $table->integer('teacher_id')->nullable();
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('teacher_id');
             $table->integer('time_slot_id')->nullable();
             $table->integer('semester_id')->nullable();
             $table->integer('program_id')->nullable();
@@ -30,6 +30,9 @@ return new class extends Migration
             $table->integer('updated_by')->nullable();
             $table->string('created_ip')->nullable();
             $table->string('updated_ip')->nullable();
+
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
         });
     }
 

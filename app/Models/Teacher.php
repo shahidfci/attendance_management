@@ -23,4 +23,14 @@ class Teacher extends Model
         'is_active',
         'image'
     ];
+
+    public function settingDesig()
+    {
+        return $this->belongsTo(Setting::class, 'designation', 'display_order')->where('type', 7);
+    }
+
+    public function settingDept()
+    {
+        return $this->belongsTo(Setting::class, 'dept', 'display_order')->where('type', 8);
+    }
 }

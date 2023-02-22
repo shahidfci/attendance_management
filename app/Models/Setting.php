@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'type',
+        'title',
+        'display_order',
+        'is_active',
+    ];
 }

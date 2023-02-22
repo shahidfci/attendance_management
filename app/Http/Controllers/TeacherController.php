@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\Setting;
 
 class TeacherController extends Controller
 {
@@ -12,7 +13,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::latest()->paginate(10);
+        $teachers = Teacher::latest()->get();
         return view('teachers.index',compact('teachers'));
     }
 
@@ -21,7 +22,12 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('teachers.create');
+        $designation    = Setting::where('type', 7)->get();
+        $department     = Setting::where('type', 8)->get();
+        return view('teachers.create',[
+            'designations'  => $designation,
+            'departments'   => $department,
+        ]);
     }
 
     /**
@@ -75,7 +81,13 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        return view('teachers.edit',compact('teacher'));
+        $designation    = Setting::where('type', 7)->get();
+        $department     = Setting::where('type', 8)->get();
+        return view('teachers.edit',[
+            'teacher'       => $teacher,
+            'designations'  => $designation,
+            'departments'   => $department,
+        ]);
     }
 
     /*

@@ -37,6 +37,12 @@
                     <a class="nav-link" href="{{ route('class-routine.index') }}">{{ __('Class Routine') }}</a>
                 </li>
                 {{-- @endcan  --}}
+
+                {{-- @can('') --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('settings.index') }}">{{ __('Settings') }}</a>
+                </li>
+                {{-- @endcan  --}}
             </ul>
 
             <!-- Right Side Of Navbar -->
