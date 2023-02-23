@@ -156,8 +156,10 @@ $(document).ready(function(){
         e.preventDefault();     //prevent page reload
         
         let data = {
-            'timeslot_title'    : $('#timeslot_title').val(),
-            'timeslot_position'  : $('#timeslot_position').val(),
+            'start_time'        : $('#start_time').val(),   /*it is only for required validation*/
+            'end_time'          : $('#end_time').val(), /*it is only for required validation*/
+            'timeslot_title'    : $('#start_time').val()+'-'+$('#end_time').val(),
+            'timeslot_position' : $('#timeslot_position').val(),
         };
 
         $.ajax({
@@ -175,9 +177,18 @@ $(document).ready(function(){
             error: function(error){
                 let err = error.responseJSON;
                 $.each(err.errors, function(key, value){
+                    if(key == 'start_time'){
+                        $('#timeslotAddErr').text(value);
+                        $('#start_time').addClass('is-invalid');
+                    }
+                    if(key == 'end_time'){
+                        $('#timeslotAddErr').text(value);
+                        $('#end_time').addClass('is-invalid');
+                    }
                     if(key == 'timeslot_title'){
                         $('#timeslotAddErr').text(value);
-                        $('#timeslot_title').addClass('is-invalid');
+                        $('#start_time').addClass('is-invalid');
+                        $('#end_time').addClass('is-invalid');
                     }
                     if(key == 'timeslot_position'){
                         $('#timeslotAddOrderErr').text(value);
@@ -195,7 +206,9 @@ function timeslotEdit(id){
     $.get('/settings/timeslot/'+id+'/edit', function(res){
         $('#editTimeslotModal').modal('show');
         $('#up_timeslot_id').val(res.id);
-        $('#up_timeslot_title').val(res.title);
+        let timeslot = res.title;
+        $('#up_start_time').val(timeslot.slice(0,5));
+        $('#up_end_time').val(timeslot.slice(6));
         $('#up_timeslot_position').val(res.display_order);
     });
 }
@@ -209,8 +222,10 @@ $(document).ready(function(){
         
         let data = {
             'up_timeslot_id'        : $('#up_timeslot_id').val(),    // This id is must be required fo update data
-            'timeslot_title'        : $('#up_timeslot_title').val(),
-            'display_position'      : $('#up_timeslot_position').val(),
+            'start_time'            : $('#up_start_time').val(),    /*it is only for required validation*/
+            'end_time'              : $('#up_end_time').val(),      /*it is only for required validation*/
+            'timeslot_title'        : $('#up_start_time').val()+'-'+$('#up_end_time').val(),
+            'timeslot_position'      : $('#up_timeslot_position').val(),
         };
         $.ajax({
             url: '/settings/timeslot/update',
@@ -225,11 +240,20 @@ $(document).ready(function(){
             error: function(error){
                 let err = error.responseJSON;
                 $.each(err.errors, function(key, value){
+                    if(key == 'start_time'){
+                        $('#timeslotUpErr').text(value);
+                        $('#up_start_time').addClass('is-invalid');
+                    }
+                    if(key == 'end_time'){
+                        $('#timeslotUpErr').text(value);
+                        $('#up_end_time').addClass('is-invalid');
+                    }
                     if(key == 'timeslot_title'){
                         $('#timeslotUpErr').text(value);
-                        $('#up_timeslot_title').addClass('is-invalid');
+                        $('#up_start_time').addClass('is-invalid');
+                        $('#up_end_time').addClass('is-invalid');
                     }
-                    if(key == 'display_position'){
+                    if(key == 'timeslot_position'){
                         $('#timeslotUpOrderErr').text(value);
                         $('#up_timeslot_position').addClass('is-invalid');
                     }
@@ -523,6 +547,545 @@ function semesterDisable(id){
         }
     });   
 }
+
+
+
+/***************************************************************
+************************ SESSION SETTING CRUD **********************
+****************************************************************/
+
+/*--- Add Session Setup ---*/
+$(document).ready(function(){
+
+    $('#sessionAddBtn').click(function(){
+        $('#sessionAddModal').modal('show');
+    });
+
+
+    $('#saveSessionBtn').click(function(e){
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'session_start'         : $('#datepicker1').val(),/*it is optional for required validation*/
+            'session_end'           : $('#datepicker2').val(),/*it is optional for required validation*/
+            'session_title'           : $('#datepicker1').val()+'-'+$('#datepicker2').val(),
+            'session_position'      : $('#session_position').val(),
+        };
+
+        $.ajax({
+            url: '/settings/session/add',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(response){
+                if(response.status == 200){
+                    $('#sessionAddModal').modal('hide');
+                    $('#sessionAddForm')[0].reset();
+                    $('#sessionTable').load(location.href+' #sessionTable');
+                }
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'session_start'){
+                        $('#sessionAddErr').text(value);
+                        $('#datepicker1').addClass('is-invalid');
+                    }
+                    if(key == 'session_end'){
+                        $('#sessionAddErr').text(value);
+                        $('#datepicker2').addClass('is-invalid');
+                    }
+                    if(key == 'session_title'){
+                        $('#sessionAddErr').text(value);
+                        $('#datepicker1').addClass('is-invalid');
+                        $('#datepicker2').addClass('is-invalid');
+                    }
+                    if(key == 'session_position'){
+                        $('#sessionAddOrderErr').text(value);
+                        $('#session_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Get Session Id For Edit Modal ---*/
+function sessionEdit(id){
+    $.get('/settings/session/'+id+'/edit', function(res){
+        $('#editSessionModal').modal('show');
+        $('#up_session_id').val(res.id);
+        let session = res.title;
+        $('#up_datepicker1').val(session.slice(0,4));
+        $('#up_datepicker2').val(session.slice(5,9));
+        $('#up_session_position').val(res.display_order);
+    });
+}
+
+
+/*--- Update Session ---*/
+$(document).ready(function(){
+    $('#updateSessionBtn').click(function(e){
+
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'up_session_id'         : $('#up_session_id').val(),
+            'session_start'         : $('#up_datepicker1').val(),   /*it is optional for required validation*/
+            'session_end'           : $('#up_datepicker2').val(),   /*it is optional for required validation*/
+            'session_title'         : $('#up_datepicker1').val()+'-'+$('#up_datepicker2').val(),
+            'session_position'      : $('#up_session_position').val(),
+        };
+        $.ajax({
+            url: '/settings/session/update',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                $('#editSessionModal').modal('hide');
+                $('#sessionTable').load(location.href+' #sessionTable');
+                $('#sessionEditForm')[0].reset();
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'session_start'){
+                        $('#sessionUpErr').text(value);
+                        $('#up_datepicker1').addClass('is-invalid');
+                    }
+                    if(key == 'session_end'){
+                        $('#sessionUpErr').text(value);
+                        $('#up_datepicker2').addClass('is-invalid');
+                    }
+                    if(key == 'session_title'){
+                        $('#sessionUpErr').text(value);
+                        $('#up_datepicker1').addClass('is-invalid');
+                        $('#up_datepicker2').addClass('is-invalid');
+                    }
+                    if(key == 'session_position'){
+                        $('#sessionOrderUpErr').text(value);
+                        $('#up_session_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Delete Session by ID ---*/
+function sessionDelete(id){
+    $.post('/settings/session/'+id+'/delete', function(res){
+        if(res.status == 200){
+            $('#sessionTable').load(location.href+' #sessionTable');
+        }
+    });   
+}
+
+/*--- Session Enable by ID ---*/
+function sessionEnable(id){
+    $.post('/settings/session/'+id+'/enable', function(res){
+        if(res.status == 200){
+            $('#sessionTable').load(location.href+' #sessionTable');
+        }
+    });   
+}
+
+/*--- Session Disable by ID ---*/
+function sessionDisable(id){
+$.post('/settings/session/'+id+'/disable', function(res){
+    if(res.status == 200){
+        $('#sessionTable').load(location.href+' #sessionTable');
+    }
+});   
+}
+
+
+/***************************************************************
+********************* YEAR SETTING CRUD ********************
+****************************************************************/
+
+/*--- Add Year Setup ---*/
+$(document).ready(function(){
+
+    $('#yearAddBtn').click(function(){
+        $('#yearAddModal').modal('show');
+    });
+
+
+    $('#saveYearBtn').click(function(e){
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'year_title'       : $('#datepicker').val(),
+            'year_position'     : $('#year_position').val(),
+        };
+
+        $.ajax({
+            url: '/settings/year/add',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(response){
+                if(response.status == 200){
+                    $('#yearAddModal').modal('hide');
+                    $('#yearAddForm')[0].reset();
+                    $('#yearTable').load(location.href+' #yearTable');
+                }
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'year_title'){
+                        $('#yearAddErr').text(value);
+                        $('#year_title').addClass('is-invalid');
+                    }
+                    if(key == 'year_position'){
+                        $('#yearAddOrderErr').text(value);
+                        $('#year_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Get Year Id For Edit Modal ---*/
+function yearEdit(id){
+    $.get('/settings/year/'+id+'/edit', function(res){
+        $('#editYearModal').modal('show');
+        $('#up_year_id').val(res.id);
+        $('#up_datepicker').val(res.title);
+        $('#up_year_position').val(res.display_order);
+    });
+}
+
+
+/*--- Update Year ---*/
+$(document).ready(function(){
+    $('#updateYearBtn').click(function(e){
+
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'up_year_id'         : $('#up_year_id').val(),    // This id is must be required fo update data
+            'year_title'         : $('#up_datepicker').val(),
+            'year_position'      : $('#up_year_position').val(),
+        };
+        $.ajax({
+            url: '/settings/year/update',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                $('#editYearModal').modal('hide');
+                $('#yearTable').load(location.href+' #yearTable');
+                $('#yearEditForm')[0].reset();
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'year_title'){
+                        $('#yearUpErr').text(value);
+                        $('#up_datepicker').addClass('is-invalid');
+                    }
+                    if(key == 'year_position'){
+                        $('#yearOrderUpErr').text(value);
+                        $('#up_year_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Delete Year by ID ---*/
+function yearDelete(id){
+    $.post('/settings/year/'+id+'/delete', function(res){
+        if(res.status == 200){
+            $('#yearTable').load(location.href+' #yearTable');
+        }
+    });   
+}
+
+/*--- Year Enable by ID ---*/
+function yearEnable(id){
+    $.post('/settings/year/'+id+'/enable', function(res){
+        if(res.status == 200){
+            $('#yearTable').load(location.href+' #yearTable');
+        }
+    });   
+}
+
+/*--- Year Disable by ID ---*/
+function yearDisable(id){
+    $.post('/settings/year/'+id+'/disable', function(res){
+        if(res.status == 200){
+            $('#yearTable').load(location.href+' #yearTable');
+        }
+    });   
+}
+
+
+/***************************************************************
+****************** DESIGNATION SETTING CRUD ********************
+****************************************************************/
+
+/*--- Add Designation Setup ---*/
+$(document).ready(function(){
+
+    $('#designationAddBtn').click(function(){
+        $('#designationAddModal').modal('show');
+    });
+
+
+    $('#saveDesignationBtn').click(function(e){
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'designation_title'       : $('#designation_title').val(),
+            'designation_position'     : $('#designation_position').val(),
+        };
+
+        $.ajax({
+            url: '/settings/designation/add',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(response){
+                if(response.status == 200){
+                    $('#designationAddModal').modal('hide');
+                    $('#designationAddForm')[0].reset();
+                    $('#designationTable').load(location.href+' #designationTable');
+                }
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'designation_title'){
+                        $('#designationAddErr').text(value);
+                        $('#designation_title').addClass('is-invalid');
+                    }
+                    if(key == 'designation_position'){
+                        $('#designationAddOrderErr').text(value);
+                        $('#designation_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Get Designation Id For Edit Modal ---*/
+function designationEdit(id){
+    $.get('/settings/designation/'+id+'/edit', function(res){
+        $('#editDesignationModal').modal('show');
+        $('#up_designation_id').val(res.id);
+        $('#up_designation_title').val(res.title);
+        $('#up_designation_position').val(res.display_order);
+    });
+}
+
+
+/*--- Update Designation ---*/
+$(document).ready(function(){
+    $('#updateDesignationBtn').click(function(e){
+
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'up_designation_id'         : $('#up_designation_id').val(),    // This id is must be required fo update data
+            'designation_title'         : $('#up_designation_title').val(),
+            'designation_position'      : $('#up_designation_position').val(),
+        };
+        $.ajax({
+            url: '/settings/designation/update',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                $('#editDesignationModal').modal('hide');
+                $('#designationTable').load(location.href+' #designationTable');
+                $('#designationEditForm')[0].reset();
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'designation_title'){
+                        $('#designationUpErr').text(value);
+                        $('#up_designation_title').addClass('is-invalid');
+                    }
+                    if(key == 'designation_position'){
+                        $('#designationOrderUpErr').text(value);
+                        $('#up_designation_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Delete Designation by ID ---*/
+function designationDelete(id){
+    $.post('/settings/designation/'+id+'/delete', function(res){
+        if(res.status == 200){
+            $('#designationTable').load(location.href+' #designationTable');
+        }
+    });   
+}
+
+/*--- Designation Enable by ID ---*/
+function designationEnable(id){
+    $.post('/settings/designation/'+id+'/enable', function(res){
+        if(res.status == 200){
+            $('#designationTable').load(location.href+' #designationTable');
+        }
+    });   
+}
+
+/*--- Designation Disable by ID ---*/
+function designationDisable(id){
+    $.post('/settings/designation/'+id+'/disable', function(res){
+        if(res.status == 200){
+            $('#designationTable').load(location.href+' #designationTable');
+        }
+    });   
+}
+
+
+
+/***************************************************************
+********************* DEPARTMENT SETTING CRUD ******************
+****************************************************************/
+
+/*--- Add Department Setup ---*/
+$(document).ready(function(){
+
+    $('#departmentAddBtn').click(function(){
+        $('#departmentAddModal').modal('show');
+    });
+
+
+    $('#saveDepartmentBtn').click(function(e){
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'department_title'       : $('#department_title').val(),
+            'department_position'     : $('#department_position').val(),
+        };
+
+        $.ajax({
+            url: '/settings/department/add',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(response){
+                if(response.status == 200){
+                    $('#departmentAddModal').modal('hide');
+                    $('#departmentAddForm')[0].reset();
+                    $('#departmentTable').load(location.href+' #departmentTable');
+                }
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'department_title'){
+                        $('#departmentAddErr').text(value);
+                        $('#department_title').addClass('is-invalid');
+                    }
+                    if(key == 'department_position'){
+                        $('#departmentAddOrderErr').text(value);
+                        $('#department_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Get Department Id For Edit Modal ---*/
+function departmentEdit(id){
+    $.get('/settings/department/'+id+'/edit', function(res){
+        $('#editDepartmentModal').modal('show');
+        $('#up_department_id').val(res.id);
+        $('#up_department_title').val(res.title);
+        $('#up_department_position').val(res.display_order);
+    });
+}
+
+
+/*--- Update Department ---*/
+$(document).ready(function(){
+    $('#updateDepartmentBtn').click(function(e){
+
+        e.preventDefault();     //prevent page reload
+        
+        let data = {
+            'up_department_id'         : $('#up_department_id').val(),    // This id is must be required fo update data
+            'department_title'         : $('#up_department_title').val(),
+            'department_position'      : $('#up_department_position').val(),
+        };
+        $.ajax({
+            url: '/settings/department/update',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                $('#editDepartmentModal').modal('hide');
+                $('#departmentTable').load(location.href+' #departmentTable');
+                $('#departmentEditForm')[0].reset();
+            },
+            error: function(error){
+                let err = error.responseJSON;
+                $.each(err.errors, function(key, value){
+                    if(key == 'department_title'){
+                        $('#departmentUpErr').text(value);
+                        $('#up_department_title').addClass('is-invalid');
+                    }
+                    if(key == 'department_position'){
+                        $('#departmentOrderUpErr').text(value);
+                        $('#up_department_position').addClass('is-invalid');
+                    }
+                });
+            } 
+        });
+    });
+});
+
+
+/*--- Delete Department by ID ---*/
+function departmentDelete(id){
+    $.post('/settings/department/'+id+'/delete', function(res){
+        if(res.status == 200){
+            $('#departmentTable').load(location.href+' #departmentTable');
+        }
+    });   
+}
+
+/*--- Department Enable by ID ---*/
+function departmentEnable(id){
+    $.post('/settings/department/'+id+'/enable', function(res){
+        if(res.status == 200){
+            $('#departmentTable').load(location.href+' #departmentTable');
+        }
+    });   
+}
+
+/*--- Department Disable by ID ---*/
+function departmentDisable(id){
+    $.post('/settings/department/'+id+'/disable', function(res){
+        if(res.status == 200){
+            $('#departmentTable').load(location.href+' #departmentTable');
+        }
+    });   
+}
+
 
 
 

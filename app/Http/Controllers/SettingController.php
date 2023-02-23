@@ -65,7 +65,7 @@ class SettingController extends Controller
     public function dayUpdate(Request $request)
     {
         request()->validate([
-            'day_title'         => ['required'],
+            'day_title'         => ['required','unique:settings,title,'.$request->up_id],
             'display_position'  => ['required'],
         ]);
         $settings = Setting::findOrFail($request->up_id);
@@ -115,6 +115,9 @@ class SettingController extends Controller
     public function timeslotAdd(Request $request)
     {
         request()->validate([
+
+            'start_time'            => ['required'],    /*it is only for required validation*/
+            'end_time'              => ['required'],    /*it is only for required validation*/
             'timeslot_title'        => ['required','unique:settings,title'],
             'timeslot_position'     => ['required'],
         ]);
@@ -140,15 +143,17 @@ class SettingController extends Controller
     public function timeslotUpdate(Request $request)
     {
         request()->validate([
-            'timeslot_title'        => ['required'],
-            'display_position'      => ['required'],
+            'start_time'            => ['required'],    /*it is use only for required validation*/
+            'end_time'              => ['required'],    /*it is use only for required validation*/
+            'timeslot_title'        => ['required','unique:settings,title,'.$request->up_timeslot_id],
+            'timeslot_position'     => ['required'],
         ]);
         $settings = Setting::findOrFail($request->up_timeslot_id);
 
         $settings->update([
             'type'              => 2,
             'title'             => $request['timeslot_title'],
-            'display_order'     => $request['display_position'],
+            'display_order'     => $request['timeslot_position'],
         ]);
 
         return response()->json([
@@ -334,6 +339,315 @@ class SettingController extends Controller
             'status' => 200,
         ]);
     }
+
+    /*******************************
+    **** SESSION SETTING CRUD *****
+    *******************************/
+
+    public function sessionAdd(Request $request)
+    {
+        request()->validate([
+            'session_start'        => ['required'],/*it is optional for required validation*/
+            'session_end'          => ['required'],/*it is optional for required validation*/
+            'session_title'        => ['required','unique:settings,title'],
+            'session_position'     => ['required'],
+        ]);
+        Setting::create([
+            'type'                  => 5,
+            'title'                 => $request['session_title'],
+            'display_order'         => $request['session_position'],
+            'is_active'             => 1,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function sessionEdit($id)
+    {
+        $session   =   Setting::findOrFail($id);
+
+        return $session;
+    }
+
+    public function sessionUpdate(Request $request)
+    {
+        request()->validate([
+            'session_start'        => ['required'],/*it is optional for required validation*/
+            'session_end'          => ['required'],/*it is optional for required validation*/
+            'session_title'        => ['required','unique:settings,title,'.$request->up_session_id],
+            'session_position'     => ['required'],
+        ]);
+        $settings = Setting::findOrFail($request->up_session_id);
+
+        $settings->update([
+            'type'                  => 5,
+            'title'                 => $request['session_title'],
+            'display_order'         => $request['session_position'],
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function sessionDelete($id)
+    {
+        Setting::findOrFail($id)->delete();
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function sessionEnable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 1]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function sessionDisable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 0]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    /*******************************
+    ****** YEAR SETTING CRUD *******
+    *******************************/
+
+    public function yearAdd(Request $request)
+    {
+        request()->validate([
+            'year_title'           => ['required'],
+            'year_position'         => ['required'],
+        ]);
+        Setting::create([
+            'type'                  => 6,
+            'title'                 => $request['year_title'],
+            'display_order'         => $request['year_position'],
+            'is_active'             => 1,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function yearEdit($id)
+    {
+        $years   =   Setting::findOrFail($id);
+
+        return $years;
+    }
+
+    public function yearUpdate(Request $request)
+    {
+        request()->validate([
+            'year_title'        => ['required'],
+            'year_position'      => ['required'],
+        ]);
+        $settings = Setting::findOrFail($request->up_year_id);
+
+        $settings->update([
+            'type'              => 6,
+            'title'             => $request['year_title'],
+            'display_order'     => $request['year_position'],
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function yearDelete($id)
+    {
+        Setting::findOrFail($id)->delete();
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function yearEnable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 1]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function yearDisable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 0]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    /*************************************
+    ****** DESIGNATION SETTING CRUD ******
+    **************************************/
+
+    public function designationAdd(Request $request)
+    {
+        request()->validate([
+            'designation_title'           => ['required'],
+            'designation_position'         => ['required'],
+        ]);
+        Setting::create([
+            'type'                  => 7,
+            'title'                 => $request['designation_title'],
+            'display_order'         => $request['designation_position'],
+            'is_active'             => 1,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function designationEdit($id)
+    {
+        $designations   =   Setting::findOrFail($id);
+
+        return $designations;
+    }
+
+    public function designationUpdate(Request $request)
+    {
+        request()->validate([
+            'designation_title'         => ['required'],
+            'designation_position'      => ['required'],
+        ]);
+        $settings = Setting::findOrFail($request->up_designation_id);
+
+        $settings->update([
+            'type'              => 7,
+            'title'             => $request['designation_title'],
+            'display_order'     => $request['designation_position'],
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function designationDelete($id)
+    {
+        Setting::findOrFail($id)->delete();
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function designationEnable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 1]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function designationDisable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 0]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+
+
+    /*************************************
+    ******* DEPARTMENT SETTING CRUD ******
+    **************************************/
+
+    public function departmentAdd(Request $request)
+    {
+        request()->validate([
+            'department_title'           => ['required'],
+            'department_position'         => ['required'],
+        ]);
+        Setting::create([
+            'type'                  => 8,
+            'title'                 => $request['department_title'],
+            'display_order'         => $request['department_position'],
+            'is_active'             => 1,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function departmentEdit($id)
+    {
+        $departments   =   Setting::findOrFail($id);
+
+        return $departments;
+    }
+
+    public function departmentUpdate(Request $request)
+    {
+        request()->validate([
+            'department_title'         => ['required'],
+            'department_position'      => ['required'],
+        ]);
+        $settings = Setting::findOrFail($request->up_department_id);
+
+        $settings->update([
+            'type'              => 8,
+            'title'             => $request['department_title'],
+            'display_order'     => $request['department_position'],
+        ]);
+
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function departmentDelete($id)
+    {
+        Setting::findOrFail($id)->delete();
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function departmentEnable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 1]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+    public function departmentDisable($id)
+    {
+        Setting::findOrFail($id)->update(['is_active' => 0]);
+        
+        return response()->json([
+            'status' => 200,
+        ]);
+    }
+
+
+
 
 
 }

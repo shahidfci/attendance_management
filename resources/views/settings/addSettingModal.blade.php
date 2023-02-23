@@ -70,24 +70,23 @@
                     @csrf
 					<div class="form-group">
 						<label class="col-form-label">Timeslot Title:</label>
-						<select id="timeslot_title" class="form-control @error('timeslot_title') is-invalid @enderror">
-                            <option value="" selected>Timeslot</option>
-                            <option value="09:00AM-09:30AM">09:00AM-09:30AM</option>
-                            <option value="09:30AM-10:00AM">09:30AM-10:00AM</option>
-                            <option value="10:00AM-10:30AM">10:00AM-10:30AM</option>
-                            <option value="10:30AM-11:00AM">10:30AM-11:00AM</option>
-                            <option value="11:00AM-11:30AM">11:00AM-11:30AM</option>
-                            <option value="11:30AM-12:00PM">11:30AM-12:00PM</option>
-                            <option value="04:00PM-05:00PM">04:00PM-05:00PM</option>
-                        </select>
+						<table class="form-control">
+                            <tr>
+                                <td><label class="form-label">Start</label></td>
+                                <td class="px-3"><input type="time" class="form-control" id="start_time" /></td>
+                                <td><label class="form-label">End</label></td>
+                                <td class="px-3"><input type="time" class="form-control" id="end_time" /></td>
+                            </tr>
+                        </table>
+                          
                         <span class="text-danger">
                             <strong id="timeslotAddErr"></strong>
                         </span>
-
                     </div>
+                    
 					<div class="form-group">
 						<label class="col-form-label">Display Position:</label>
-						<select id="timeslot_position" class="form-control @error('timeslot_position') is-invalid @enderror">
+						<select id="timeslot_position" class="form-control">
                             <option value="" selected>Display Position</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -95,7 +94,15 @@
                             <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
-                            <option value="6">7</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
                         </select>
                         <span class="text-danger">
                             <strong id="timeslotAddOrderErr"></strong>
@@ -212,3 +219,243 @@
     </div>
 </div>
 <!-- End Semester Add Modal-->
+
+
+<!-- Session Add Modal -->
+<div class="modal fade" id="sessionAddModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Session Setup</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!---Input form --->
+				<form action="" method="post" id="sessionAddForm">
+                    @csrf
+					<div class="form-group">
+						<label class="col-form-label">Session Title:</label>
+                        <table>
+                            <tr>
+                                <td><label for="datepicker" class="form-label">Start</label></td>
+                                <td class="p-2"><input type="text" class="form-control" name="datepicker" id="datepicker1" /></td>
+                                <td><label for="datepicker" class="form-label">End</label></td>
+                                <td class="p-2"><input type="text" class="form-control" name="datepicker" id="datepicker2" /></td>
+                            </tr>
+                        </table>
+                        <span class="text-danger">
+                            <strong id="sessionAddErr"></strong>
+                        </span>
+                        <script>
+                            $("#datepicker1").datepicker({
+                                format: "yyyy",
+                                viewMode: "years", 
+                                minViewMode: "years",
+                                autoclose:true //to close picker once year is selected
+                            });
+                            $("#datepicker2").datepicker({
+                                format: "yyyy",
+                                viewMode: "years", 
+                                minViewMode: "years",
+                                autoclose:true //to close picker once year is selected
+                            });
+                        </script>
+                    </div>
+					<div class="form-group">
+						<label class="col-form-label">Display Position:</label>
+						<select id="session_position" class="form-control">
+                            <option value="" selected>Display Position</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                        <span class="text-danger">
+                            <strong id="sessionAddOrderErr"></strong>
+                        </span>
+                    </div>
+				</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-sm" id="saveSessionBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Session Add Modal-->
+
+
+
+<!-- Year Add Modal -->
+<div class="modal fade" id="yearAddModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Year Setup</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!---Input form --->
+				<form action="" method="post" id="yearAddForm">
+                    @csrf
+					<div class="form-group">
+						<label class="col-form-label">Year Title:</label>
+                        <input type="text" class="form-control" name="datepicker" id="datepicker" />
+                        
+                        <span class="text-danger">
+                            <strong id="yearAddErr"></strong>
+                        </span>
+                        <script>
+                            $("#datepicker").datepicker({
+                                format: "yyyy",
+                                viewMode: "years", 
+                                minViewMode: "years",
+                                autoclose:true //to close picker once year is selected
+                            });
+                        </script>
+                    </div>
+					<div class="form-group">
+						<label class="col-form-label">Display Position:</label>
+						<select id="year_position" class="form-control">
+                            <option value="" selected>Display Position</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                        <span class="text-danger">
+                            <strong id="yearAddOrderErr"></strong>
+                        </span>
+                    </div>
+				</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-sm" id="saveYearBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Year Add Modal-->
+
+
+<!-- Designation Add Modal -->
+<div class="modal fade" id="designationAddModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Designation Setup</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!---Input form --->
+				<form action="" method="post" id="designationAddForm">
+                    @csrf
+					<div class="form-group">
+						<label class="col-form-label">Designation Title:</label>
+                        <input type="text" class="form-control" id="designation_title" placeholder="Enter designation..."/>
+                        
+                        <span class="text-danger">
+                            <strong id="designationAddErr"></strong>
+                        </span>
+                    </div>
+					<div class="form-group">
+						<label class="col-form-label">Display Position:</label>
+                        <select id="designation_position" class="form-control">
+                            <option value="" selected>Display Position</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="4">8</option>
+                            <option value="5">9</option>
+                            <option value="6">10</option>
+                            <option value="7">11</option>
+                            <option value="4">12</option>
+                            <option value="5">13</option>
+                            <option value="6">14</option>
+                            <option value="7">15</option>
+                        </select>
+
+                        <span class="text-danger">
+                            <strong id="designationAddOrderErr"></strong>
+                        </span>
+                    </div>
+				</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-sm" id="saveDesignationBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Designation Add Modal-->
+
+
+
+<!-- Department Add Modal -->
+<div class="modal fade" id="departmentAddModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Department Setup</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!---Input form --->
+				<form action="" method="post" id="departmentAddForm">
+                    @csrf
+					<div class="form-group">
+						<label class="col-form-label">Department Title:</label>
+                        <input type="text" class="form-control" id="department_title" placeholder="Enter department..."/>
+                        
+                        <span class="text-danger">
+                            <strong id="departmentAddErr"></strong>
+                        </span>
+                    </div>
+					<div class="form-group">
+						<label class="col-form-label">Display Position:</label>
+                        <select id="department_position" class="form-control">
+                            <option value="" selected>Display Position</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                        </select>
+
+                        <span class="text-danger">
+                            <strong id="departmentAddOrderErr"></strong>
+                        </span>
+                    </div>
+				</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-sm" id="saveDepartmentBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Department Add Modal-->

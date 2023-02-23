@@ -18,70 +18,48 @@
         <div class="col-12">
             <div class="card recent-sales overflow-auto">
 
-                <div class="filter">
-                    <button id="dayAddBtn" class="btn btn-sm btn-primary">
-                        <i class="bi bi-calendar2-day"></i>&nbsp; Day
-                    </button>
-
-                    <button id="timeslotAddBtn" class="btn btn-sm btn-primary">
-                        <i class="bi bi-calendar2-day"></i>&nbsp; TSlot
-                    </button>
-
-                    <button id="roomAddBtn" class="btn btn-sm btn-primary">
-                        <i class="bi bi-calendar2-day"></i>&nbsp; Room
-                    </button>
-                    
-                    <button id="semesterAddBtn" class="btn btn-sm btn-primary">
-                        <i class="bi bi-calendar2-day"></i>&nbsp; Semester
-                    </button>
-
-                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <li class="dropdown-header text-start">
-                            <h6>Filter</h6>
-                        </li>
-
-                        <li><a class="dropdown-item" href="#">Today</a></li>
-                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                    </ul>
-                </div>
-
                 <div class="card-body">
-                    <h5 class="card-title">Recent Settings <span>| Today</span></h5>
-
-                    <!--- Settings Tab Links --->
-                    <ul class="nav nav-tabs" id="settingTab" role="tablist">
-                        <li class="nav-item">
-                        <a class="nav-link active" id="day-tab" data-toggle="tab" href="#day" role="tab" aria-controls="day" aria-selected="true">Days</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" id="timeslot-tab" data-toggle="tab" href="#timeslot" role="tab" aria-controls="timeslot" aria-selected="false">Timeslots</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" id="room-tab" data-toggle="tab" href="#room" role="tab" aria-controls="room" aria-selected="false">Rooms</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="semester-tab" data-toggle="tab" href="#semester" role="tab" aria-controls="semester" aria-selected="false">Semesters</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" id="session-tab" data-toggle="tab" href="#session" role="tab" aria-controls="session" aria-selected="false">Sessions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="year-tab" data-toggle="tab" href="#year" role="tab" aria-controls="year" aria-selected="false">Years</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="designation-tab" data-toggle="tab" href="#designation" role="tab" aria-controls="designation" aria-selected="false">Designations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="department-tab" data-toggle="tab" href="#department" role="tab" aria-controls="department" aria-selected="false">Departments</a>
-                        </li>
-                    </ul>
+                    <div class="card-title">
+                        <!--- Settings Tab Links --->
+                        <ul class="nav nav-tabs" id="settingTab" role="tablist">
+                            <li class="nav-item">
+                            <a class="nav-link active" id="day-tab" data-toggle="tab" href="#day" role="tab" aria-controls="day" aria-selected="true">Days</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" id="timeslot-tab" data-toggle="tab" href="#timeslot" role="tab" aria-controls="timeslot" aria-selected="false">Timeslots</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" id="room-tab" data-toggle="tab" href="#room" role="tab" aria-controls="room" aria-selected="false">Rooms</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="semester-tab" data-toggle="tab" href="#semester" role="tab" aria-controls="semester" aria-selected="false">Semesters</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" id="session-tab" data-toggle="tab" href="#session" role="tab" aria-controls="session" aria-selected="false">Sessions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="year-tab" data-toggle="tab" href="#year" role="tab" aria-controls="year" aria-selected="false">Years</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="designation-tab" data-toggle="tab" href="#designation" role="tab" aria-controls="designation" aria-selected="false">Designations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="department-tab" data-toggle="tab" href="#department" role="tab" aria-controls="department" aria-selected="false">Departments</a>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!--- Settings Tab Contents --->
                     <div class="tab-content mt-2" id="myTabContent">
                         <!--- Day Tab Content --->
                         <div class="tab-pane fade show active" id="day" role="tabpanel" aria-labelledby="day-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="dayAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Day
+                                </button>
+                            </div>
+
                             <table class="table table-borderless datatable" id="dayTable">
                                 <thead>
                                     <tr>
@@ -131,6 +109,13 @@
 
                         <!--- Timeslot Tab Content --->
                         <div class="tab-pane fade" id="timeslot" role="tabpanel" aria-labelledby="timeslot-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="timeslotAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Timeslot
+                                </button>
+                            </div>
+
                             <table id="timeslotTable" class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -180,6 +165,13 @@
                         
                         <!--- Room Tab Content --->
                         <div class="tab-pane fade" id="room" role="tabpanel" aria-labelledby="room-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="roomAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Room
+                                </button>
+                            </div>
+                            
                             <table id="roomTable" class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -229,6 +221,13 @@
 
                         <!--- Semester Tab Content --->
                         <div class="tab-pane fade" id="semester" role="tabpanel" aria-labelledby="semester-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="semesterAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Semester
+                                </button>
+                            </div>
+                            
                             <table id="semesterTable" class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -278,6 +277,13 @@
 
                         <!--- Session Tab Content --->
                         <div class="tab-pane fade" id="session" role="tabpanel" aria-labelledby="session-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="sessionAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Session
+                                </button>
+                            </div>
+                            
                             <table id="sessionTable" class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -327,6 +333,13 @@
 
                         <!--- Year Tab Content --->
                         <div class="tab-pane fade" id="year" role="tabpanel" aria-labelledby="year-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="yearAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Year
+                                </button>
+                            </div>
+                            
                             <table id="yearTable" class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -376,6 +389,13 @@
                         
                         <!--- Designation Tab Content --->
                         <div class="tab-pane fade" id="designation" role="tabpanel" aria-labelledby="designation-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="designationAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Designation
+                                </button>
+                            </div>
+                            
                             <table id="designationTable" class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -425,6 +445,13 @@
                         
                         <!--- Department Tab Content --->
                         <div class="tab-pane fade" id="department" role="tabpanel" aria-labelledby="department-tab">
+                            
+                            <div class="pagetitle">
+                                <button id="departmentAddBtn" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-calendar2-day"></i>&nbsp; Add Department
+                                </button>
+                            </div>
+                            
                             <table id="departmentTable" class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -443,12 +470,12 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <button onclick="deptEdit({{ $dept->id }})" type="button" class="btn btn-outline-success btn-sm px-1 py-0 border-0">
+                                                        <button onclick="departmentEdit({{ $dept->id }})" type="button" class="btn btn-outline-success btn-sm px-1 py-0 border-0">
                                                             <i class="bi bi-pencil-square" style="font-size: 18px"></i>
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <button  onclick="deptDelete({{ $dept->id }})" type="button" class="btn btn-sm btn-outline-danger px-1 py-0 border-0">
+                                                        <button  onclick="departmentDelete({{ $dept->id }})" type="button" class="btn btn-sm btn-outline-danger px-1 py-0 border-0">
                                                             <i class="bi bi-trash" style="font-size: 18px"></i>
                                                         </button>
                                                     </td>
@@ -457,10 +484,10 @@
                                         </td>
                                         <td>
                                             @if($dept->is_active == 1)
-                                                <button onclick="deptDisable({{ $dept->id }})" class="badge bg-success border-0">Active</button>
+                                                <button onclick="departmentDisable({{ $dept->id }})" class="badge bg-success border-0">Active</button>
                                             @else
                                                 @if ($dept->is_active == 0)
-                                                    <button onclick="deptEnable({{ $dept->id }})" class="badge bg-danger border-0">Disable</button>
+                                                    <button onclick="departmentEnable({{ $dept->id }})" class="badge bg-danger border-0">Disable</button>
                                                 @else
                                                     <span class="badge bg-warning">Pending</span>
                                                 @endif
@@ -473,6 +500,7 @@
                         </div>
                     </div>
 
+                    <!--- Tab Link Script --->
                     <script>
                         $('#settingTab a').on('click', function (e) {
                             e.preventDefault()

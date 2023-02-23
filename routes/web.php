@@ -54,4 +54,32 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/settings/semester/{id}/delete', [SettingController::class, 'semesterDelete']);
     Route::post('/settings/semester/{id}/enable', [SettingController::class, 'semesterEnable']);
     Route::post('/settings/semester/{id}/disable', [SettingController::class, 'semesterDisable']);
+
+    Route::post('/settings/session/add', [SettingController::class, 'sessionAdd']);
+    Route::get('/settings/session/{id}/edit', [SettingController::class, 'sessionEdit']);
+    Route::post('/settings/session/update', [SettingController::class, 'sessionUpdate']);
+    Route::post('/settings/session/{id}/delete', [SettingController::class, 'sessionDelete']);
+    Route::post('/settings/session/{id}/enable', [SettingController::class, 'sessionEnable']);
+    Route::post('/settings/session/{id}/disable', [SettingController::class, 'sessionDisable']);
+
+    Route::post('/settings/year/add', [SettingController::class, 'yearAdd']);
+    Route::get('/settings/year/{id}/edit', [SettingController::class, 'yearEdit']);
+    Route::post('/settings/year/update', [SettingController::class, 'yearUpdate']);
+    Route::post('/settings/year/{id}/delete', [SettingController::class, 'yearDelete']);
+    Route::post('/settings/year/{id}/enable', [SettingController::class, 'yearEnable']);
+    Route::post('/settings/year/{id}/disable', [SettingController::class, 'yearDisable']);
+
+    Route::post('/settings/designation/add', [SettingController::class, 'designationAdd']);
+    Route::get('/settings/designation/{id}/edit', [SettingController::class, 'designationEdit']);
+    Route::post('/settings/designation/update', [SettingController::class, 'designationUpdate']);
+    Route::post('/settings/designation/{id}/delete', [SettingController::class, 'designationDelete']);
+    Route::post('/settings/designation/{id}/enable', [SettingController::class, 'designationEnable']);
+    Route::post('/settings/designation/{id}/disable', [SettingController::class, 'designationDisable']);
+
+    Route::post('/settings/department/add', [SettingController::class, 'departmentAdd']);
+    Route::get('/settings/department/{id}/edit', [SettingController::class, 'departmentEdit']);
+    Route::post('/settings/department/update', [SettingController::class, 'departmentUpdate']);
+    Route::post('/settings/department/{id}/delete', [SettingController::class, 'departmentDelete']);
+    Route::post('/settings/department/{id}/enable', [SettingController::class, 'departmentEnable']);
+    Route::post('/settings/department/{id}/disable', [SettingController::class, 'departmentDisable']);
 });

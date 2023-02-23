@@ -17,12 +17,16 @@
         <!--- Google Fonts --->
         <link href="https://fonts.gstatic.com" rel="preconnect">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js">/*stay in head tag*/</script>
         
         <!--- Vendor CSS Files --->
         <link href="{{ URL ('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ URL ('vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
         <link href="{{ URL ('vendor/simple-datatables/simple-datatables.css') }}" rel="stylesheet">
+
+        <link href="{{ URL('vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}" rel="stylesheet"/>
+        <script src="{{ URL('vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}">/*stay in head tag*/</script>
+    
         
 
         <!--- Template Main CSS File --->
@@ -66,7 +70,8 @@
         <script src="{{ URL('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ URL('vendor/simple-datatables/simple-datatables.js') }}"></script>
         <script src="{{ URL('vendor/tinymce/tinymce.min.js') }}"></script>
-        <script src="{{ URL ('vendor/jquery-library.js') }}"></script>
+        <script src="{{ URL('vendor/jquery-library.js') }}"></script>
+        
         
         
         <!--- Template Main JS File --->
